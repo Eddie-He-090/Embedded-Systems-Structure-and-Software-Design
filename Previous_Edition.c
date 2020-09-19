@@ -1,11 +1,11 @@
 /*
- *                         eg3.c uC/OSÈÎÎñ¼äÍ¨Ñ¶ºÍÍ¬²½ÊµÑé
+ *                         eg3.c uC/OSä»»åŠ¡é—´é€šè®¯å’ŒåŒæ­¥å®žéªŒ
  *
- * ÄÚÈÝ£º
- *     uC/OSÈÎÎñ¼äÍ¨Ñ¶ºÍÍ¬²½ÊµÑé,½¨Á¢Ò»¸ö¹¤³Ì£¬Ó¦ÓÃ³ÌÐòº¬Á½¸öÈÎÎñ£¬Ò»¸öÈÎÎñ²»¶ÏÏÔÊ¾ÅÜÂíµÆ£¬ÁíÍâÒ»¸öÈÎÎñ²»¶ÏÏÔÊ¾ÊýÂë¹Ü
- *     Ê¹ÓÃÓÊÏäÊµÏÖÁ½¸öÈÎÎñ¼ä²Ù×÷µÄÍ¨Ñ¶¶¯×÷
- * Ä¿µÄ£º
- *     uC/OSÈÎÎñ¼äÍ¨Ñ¶ºÍÍ¬²½±à³Ì£¬¶Ô¶àÈÎÎñÓ¦ÓÃ±à³ÌÒÔ¼°ÈÎÎñ¼äÍ¨Ñ¶ºÍÍ¬²½ÓÐÖ±¹ÛµÄÁË½â¡£
+ * å†…å®¹ï¼š
+ *     uC/OSä»»åŠ¡é—´é€šè®¯å’ŒåŒæ­¥å®žéªŒ,å»ºç«‹ä¸€ä¸ªå·¥ç¨‹ï¼Œåº”ç”¨ç¨‹åºå«ä¸¤ä¸ªä»»åŠ¡ï¼Œä¸€ä¸ªä»»åŠ¡ä¸æ–­æ˜¾ç¤ºè·‘é©¬ç¯ï¼Œå¦å¤–ä¸€ä¸ªä»»åŠ¡ä¸æ–­æ˜¾ç¤ºæ•°ç ç®¡
+ *     ä½¿ç”¨é‚®ç®±å®žçŽ°ä¸¤ä¸ªä»»åŠ¡é—´æ“ä½œçš„é€šè®¯åŠ¨ä½œ
+ * ç›®çš„ï¼š
+ *     uC/OSä»»åŠ¡é—´é€šè®¯å’ŒåŒæ­¥ç¼–ç¨‹ï¼Œå¯¹å¤šä»»åŠ¡åº”ç”¨ç¼–ç¨‹ä»¥åŠä»»åŠ¡é—´é€šè®¯å’ŒåŒæ­¥æœ‰ç›´è§‚çš„äº†è§£ã€‚
  *
  */
 #include	"Includes.h"               /* uC/OS interface */
@@ -13,40 +13,40 @@
 #include    "2410lib.h"
 #include    "uhal.h"
 
-/* ÈÎÎñÕ» */
-OS_STK StackLED[STACKSIZE]= {0, }; // ÈÎÎñLEDÈÎÎñÕ»  //ÏìÓ¦ÈÎÎñÕ»
-OS_STK StackSEG[STACKSIZE]= {0, }; // ÈÎÎñSEGÈÎÎñÕ» //KEY1ÈÎÎñÕ»
-OS_STK StackKEY2[STACKSIZE]= {0, }; // KEY2ÈÎÎñÕ»
+/* ä»»åŠ¡æ ˆ */
+OS_STK StackLED[STACKSIZE]= {0, }; // ä»»åŠ¡LEDä»»åŠ¡æ ˆ  //å“åº”ä»»åŠ¡æ ˆ
+OS_STK StackSEG[STACKSIZE]= {0, }; // ä»»åŠ¡SEGä»»åŠ¡æ ˆ //KEY1ä»»åŠ¡æ ˆ
+OS_STK StackKEY2[STACKSIZE]= {0, }; // KEY2ä»»åŠ¡æ ˆ
 
-/* ÈÎÎñID */
-char IdLED = '1'; // ÈÎÎñLED ID
-char IdSEG = '2'; // ÈÎÎñSEG ID
-char IdKEY2 = '3'; // ÈÎÎñKEY2 ID
+/* ä»»åŠ¡ID */
+char IdLED = '1'; // ä»»åŠ¡LED ID
+char IdSEG = '2'; // ä»»åŠ¡SEG ID
+char IdKEY2 = '3'; // ä»»åŠ¡KEY2 ID
 
-/* ÈÎÎñ´¦Àíº¯Êý */
-void TaskLED(void *Id); // ÈÎÎñLEDÈÎÎñ´¦Àíº¯Êý
-void TaskSEG(void *Id); // ÈÎÎñSEGÈÎÎñ´¦Àíº¯Êý
-void TaskKEY2(void *Id); // ÈÎÎñKEY2ÈÎÎñ´¦Àíº¯Êý
+/* ä»»åŠ¡å¤„ç†å‡½æ•° */
+void TaskLED(void *Id); // ä»»åŠ¡LEDä»»åŠ¡å¤„ç†å‡½æ•°
+void TaskSEG(void *Id); // ä»»åŠ¡SEGä»»åŠ¡å¤„ç†å‡½æ•°
+void TaskKEY2(void *Id); // ä»»åŠ¡KEY2ä»»åŠ¡å¤„ç†å‡½æ•°
 
-/* ¶¨Ê±Æ÷·þÎñº¯Êý£¬Èý¸ö¶¨Ê±Æ÷¹«ÓÃÒ»¸ö¶¨Ê±Æ÷·þÎñº¯Êý */
+/* å®šæ—¶å™¨æœåŠ¡å‡½æ•°ï¼Œä¸‰ä¸ªå®šæ—¶å™¨å…¬ç”¨ä¸€ä¸ªå®šæ—¶å™¨æœåŠ¡å‡½æ•° */
 void TmrFunc1(INT8U arg);
 
-/* ¶¨Ê±Æ÷1¡¢2¡¢3 */
+/* å®šæ—¶å™¨1ã€2ã€3 */
 OS_TMR *Tmr1;	
 OS_TMR *Tmr2;
 OS_TMR *Tmr3;
 
 
-/* ÓÊÏä */
+/* é‚®ç®± */
 OS_EVENT *Mbox1;
 
 
-/* ÐÅºÅÁ¿ */
-OS_EVENT *Sem1; // ÐÅºÅÁ¿Sem1
-OS_EVENT *Sem2; // ÐÅºÅÁ¿Sem2
+/* ä¿¡å·é‡ */
+OS_EVENT *Sem1; // ä¿¡å·é‡Sem1
+OS_EVENT *Sem2; // ä¿¡å·é‡Sem2
 
 /*
- * ÅÜÂíµÆÉÁË¸º¯Êý£¬µ÷ÓÃÒ»´Î£¬ËÄ¸öÅÜÂíµÆÓÉÁÁ±äÃð»òÕßÓÉÃð±äÁÁ
+ * è·‘é©¬ç¯é—ªçƒå‡½æ•°ï¼Œè°ƒç”¨ä¸€æ¬¡ï¼Œå››ä¸ªè·‘é©¬ç¯ç”±äº®å˜ç­æˆ–è€…ç”±ç­å˜äº®
  */
 void User_LED_Blink(void)
 {
@@ -60,7 +60,7 @@ void User_LED_Blink(void)
 }
 
 /*
- * ÊýÂë¹ÜÏÔÊ¾ÊµÑé£¬ÓÉ0µ½FÒÀ´ÎÏÔÊ¾
+ * æ•°ç ç®¡æ˜¾ç¤ºå®žéªŒï¼Œç”±0åˆ°Fä¾æ¬¡æ˜¾ç¤º
  */
 void User_SEG_Blink(char a)
 {
@@ -75,27 +75,27 @@ void User_SEG_Blink(char a)
 }
 
 /*
- * ¶¨Ê±Æ÷Tmr1¡¢Tmr2¡¢Tmr3´¦Àíº¯Êý
- *     1¡¢¸ù¾Ýarg²ÎÊýÈ·¶¨¶¨Ê±Æ÷
- *     2¡¢Èý¸ö¶¨Ê±Æ÷Í¬Ê±Ö»´ò¿ªÒ»¸ö£¬¼´Tmr1¡¢Tmr2¡¢Tmr3£¬Èý¸ö¶¨Ê±Æ÷×ÜºÍÉÁË¸Ò»´ÎÅÜÂíµÆ
+ * å®šæ—¶å™¨Tmr1ã€Tmr2ã€Tmr3å¤„ç†å‡½æ•°
+ *     1ã€æ ¹æ®argå‚æ•°ç¡®å®šå®šæ—¶å™¨
+ *     2ã€ä¸‰ä¸ªå®šæ—¶å™¨åŒæ—¶åªæ‰“å¼€ä¸€ä¸ªï¼Œå³Tmr1ã€Tmr2ã€Tmr3ï¼Œä¸‰ä¸ªå®šæ—¶å™¨æ€»å’Œé—ªçƒä¸€æ¬¡è·‘é©¬ç¯
  */
 void TmrFunc1(INT8U arg)
 {
-	/* ¸ù¾Ýarg²ÎÊý´¦Àí²»Í¬µÄ¶¨Ê±Æ÷ */
+	/* æ ¹æ®argå‚æ•°å¤„ç†ä¸åŒçš„å®šæ—¶å™¨ */
 	switch(arg)
 	{
-	/* ¶¨Ê±Æ÷1£¬¹Ø±Õ¶¨Ê±Æ÷1£¬´ò¿ª¶¨Ê±Æ÷2 */
+	/* å®šæ—¶å™¨1ï¼Œå…³é—­å®šæ—¶å™¨1ï¼Œæ‰“å¼€å®šæ—¶å™¨2 */
 	case 1:	
 		OSEnableTimer(Tmr2);
 		OSDisableTimer(Tmr1);
 		User_LED_Blink();
 		break;
-	/* ¶¨Ê±Æ÷2£¬¹Ø±Õ¶¨Ê±Æ÷2£¬´ò¿ª¶¨Ê±Æ÷3 */
+	/* å®šæ—¶å™¨2ï¼Œå…³é—­å®šæ—¶å™¨2ï¼Œæ‰“å¼€å®šæ—¶å™¨3 */
 	case 2:
 		OSEnableTimer(Tmr3);
 		OSDisableTimer(Tmr2);
 		break;
-	/* ¶¨Ê±Æ÷3£¬¹Ø±Õ¶¨Ê±Æ÷3£¬´ò¿ª¶¨Ê±Æ÷1 */
+	/* å®šæ—¶å™¨3ï¼Œå…³é—­å®šæ—¶å™¨3ï¼Œæ‰“å¼€å®šæ—¶å™¨1 */
 	case 3:
 		OSEnableTimer(Tmr1);
 		OSDisableTimer(Tmr3);
@@ -106,9 +106,9 @@ void TmrFunc1(INT8U arg)
 
 
 /*
- * ÈÎÎñLEDÈÎÎñ´¦Àíº¯Êý
- *     1¡¢OSStartµ÷ÓÃÖ®Ç°´´½¨µÄ×î¸ßÓÅÏÈ¼¶ÈÎÎñ£¬ÔÚ¸Ãº¯ÊýÖØÆô¶¯Ê±ÖÓ½ÚÅÄ¶¨Ê±Æ÷
- *     2¡¢µÈ´ýÓÊÏäÖÐµÄÏûÏ¢£¬²¢´òÓ¡³öÀ´
+ * ä»»åŠ¡LEDä»»åŠ¡å¤„ç†å‡½æ•°
+ *     1ã€OSStartè°ƒç”¨ä¹‹å‰åˆ›å»ºçš„æœ€é«˜ä¼˜å…ˆçº§ä»»åŠ¡ï¼Œåœ¨è¯¥å‡½æ•°é‡å¯åŠ¨æ—¶é’ŸèŠ‚æ‹å®šæ—¶å™¨
+ *     2ã€ç­‰å¾…é‚®ç®±ä¸­çš„æ¶ˆæ¯ï¼Œå¹¶æ‰“å°å‡ºæ¥
  */
 void TaskLED(void *Id)
 {
@@ -117,17 +117,17 @@ void TaskLED(void *Id)
 	int benable = STEP_MOTOR_ENABLE;
 	int direct = STEP_MOTOR_CLOCKWISE;
 
-    /* Æô¶¯Ê±ÖÓ½ÚÅÄ¶¨Ê±Æ÷£¬¿ªÊ¼¶àÈÎÎñµ÷¶È */
+    /* å¯åŠ¨æ—¶é’ŸèŠ‚æ‹å®šæ—¶å™¨ï¼Œå¼€å§‹å¤šä»»åŠ¡è°ƒåº¦ */
     ARMTargetStart();
 	
-	/* ³õÊ¼»¯²½½øµç»ú */
+	/* åˆå§‹åŒ–æ­¥è¿›ç”µæœº */
 	DRVStepperInit();
 	
-	/* ¿ªÊ¼Æô¶¯²½½øµç»ú */
+	/* å¼€å§‹å¯åŠ¨æ­¥è¿›ç”µæœº */
 	DRVStepperSetDirect(direct);
 	DRVStepperControl(benable);
 	
-    /* ³õÊ¼»¯¶¨Ê±Æ÷ */
+    /* åˆå§‹åŒ–å®šæ—¶å™¨ */
 	OSTmrInit();
 	
 	err = OSCreateTimer( &Tmr1, TmrFunc1, 1, 100, OS_TMR_ENABLE);
@@ -138,12 +138,12 @@ void TaskLED(void *Id)
 	{
 		
 		INT8U ch;	
-		/* µÈ´ýÓÊÏäÖÐµÄÏûÏ¢£¬Èç¹ûÃ»ÓÐÏûÏ¢Ôò¹ÒÆð¸ÃÈÎÎñ */
+		/* ç­‰å¾…é‚®ç®±ä¸­çš„æ¶ˆæ¯ï¼Œå¦‚æžœæ²¡æœ‰æ¶ˆæ¯åˆ™æŒ‚èµ·è¯¥ä»»åŠ¡ */
 		Msg = (char *)OSMboxPend(Mbox1, 0, &err);	
 		
 		ch=*Msg;//ch=Msg[0];
 		
-		/* ´òÓ¡½ÓÊÜµ½µÄÏûÏ¢ */
+		/* æ‰“å°æŽ¥å—åˆ°çš„æ¶ˆæ¯ */
 		uHALr_printf("The key nyou pressed is:");
 		uHALr_printf(Msg);
 		uHALr_printf("\n");
@@ -162,36 +162,36 @@ void TaskLED(void *Id)
 				OSDisableTimer(Tmr3);
 				break;
 				
-			/*²½½øµç»ú£º C:¼ÓËÙ  D£º¼õËÙ  E£ºÕý·´×ª  F£ºÆô¶¯/Í£Ö¹*/
+			/*æ­¥è¿›ç”µæœºï¼š C:åŠ é€Ÿ  Dï¼šå‡é€Ÿ  Eï¼šæ­£åè½¬  Fï¼šå¯åŠ¨/åœæ­¢*/
 			case 'C': 
-				uHALr_printf("¼ÓËÙ\n");
+				uHALr_printf("åŠ é€Ÿ\n");
 				DRVStepperSpeedUp();
 				break;
 			case 'D':  
-				uHALr_printf("¼õËÙ\n");
+				uHALr_printf("å‡é€Ÿ\n");
 				DRVStepperSpeedDown();
 				break;
 			case 'F': 
 				if(direct == STEP_MOTOR_CLOCKWISE) {
-					uHALr_printf("Õý×ª\n");
+					uHALr_printf("æ­£è½¬\n");
 					direct = STEP_MOTOR_ANTICLOCKWISE;
 				} else {
-					uHALr_printf("·´×ª\n");
+					uHALr_printf("åè½¬\n");
 					direct = STEP_MOTOR_CLOCKWISE;
 				}
 				DRVStepperSetDirect(direct);
 				break;
 			case 'E': 
 				if(benable == STEP_MOTOR_ENABLE) {
-					uHALr_printf("Í£Ö¹\n");
+					uHALr_printf("åœæ­¢\n");
 					benable = STEP_MOTOR_DISABLE;
 				} else {
-					uHALr_printf("Æô¶¯\n");
+					uHALr_printf("å¯åŠ¨\n");
 					benable = STEP_MOTOR_ENABLE;
 				}
 				DRVStepperControl(benable);
 				break;
-			/*ÊýÂë¹Ü*/	
+			/*æ•°ç ç®¡*/	
 			case '0':
 				User_SEG_Blink(0);
 				break;
@@ -230,7 +230,7 @@ void TaskLED(void *Id)
 }
 
 /*
- * ÈÎÎñSEGÈÎÎñ´¦Àíº¯Êý//KEY1ÈÎÎñº¯Êý
+ * ä»»åŠ¡SEGä»»åŠ¡å¤„ç†å‡½æ•°//KEY1ä»»åŠ¡å‡½æ•°
  */
 void TaskSEG(void *Id)
 {
@@ -238,27 +238,27 @@ void TaskSEG(void *Id)
 	char	Msg[100];
 	char 	key_press;
 	INT8U	err;
-	ARMTargetStart();//¿ÉÒÔÉ¾µô
+	ARMTargetStart();//å¯ä»¥åˆ æŽ‰
 	for (;;) {
 		key_press = Key_GetKey();
 		
-		//ÈôÐÅºÅÁ¿2±»ÊÍ·Å£¨¼°µ±Sem2=1£©Ôò³ÌÐò¼ÌÐøÖ´ÐÐ£¬·ñÔò¼ÌÐøµÈ´ý
+		//è‹¥ä¿¡å·é‡2è¢«é‡Šæ”¾ï¼ˆåŠå½“Sem2=1ï¼‰åˆ™ç¨‹åºç»§ç»­æ‰§è¡Œï¼Œå¦åˆ™ç»§ç»­ç­‰å¾…
 		OSSemPend(Sem2,0,&Reply);
-		//Sem2=0£¬Ö±µ½ÊÍ·Å²Å±äÎª1
+		//Sem2=0ï¼Œç›´åˆ°é‡Šæ”¾æ‰å˜ä¸º1
 		
 		if(key_press!=0)
 		{
-			/* ·¢ËÍÊý¾Ýµ½ÓÊÏä */
+			/* å‘é€æ•°æ®åˆ°é‚®ç®± */
 			sprintf(Msg, "%c", key_press);
 			OSMboxPost(Mbox1, Msg);
 		}	
-		OSSemPost(Sem1);//ÊÍ·ÅÐÅºÅÁ¿1
+		OSSemPost(Sem1);//é‡Šæ”¾ä¿¡å·é‡1
 	}
 }
 
 
 /*
- * ÈÎÎñKEY2ÈÎÎñ´¦Àíº¯Êý
+ * ä»»åŠ¡KEY2ä»»åŠ¡å¤„ç†å‡½æ•°
  */
 void TaskKEY2(void *Id)
 {
@@ -266,7 +266,7 @@ void TaskKEY2(void *Id)
 	char	Msg[100];
 	char 	key_press;
 	INT8U	err;
-	ARMTargetStart();//¿ÉÒÔÉ¾µô
+	ARMTargetStart();//å¯ä»¥åˆ æŽ‰
 	
 	for (;;)
 	{
@@ -276,61 +276,61 @@ void TaskKEY2(void *Id)
 		
 		if(key_press!=0)
 		{
-			/* ·¢ËÍÊý¾Ýµ½ÓÊÏä */
+			/* å‘é€æ•°æ®åˆ°é‚®ç®± */
 			sprintf(Msg, "%c", key_press);
 			OSMboxPost(Mbox1, Msg);
 		}
-		OSSemPost(Sem2);//ÊÍ·ÅÐÅºÅÁ¿2	
+		OSSemPost(Sem2);//é‡Šæ”¾ä¿¡å·é‡2	
 	}
 }
 
 /*
- * Mainº¯Êý.
- *     1¡¢³õÊ¼»¯Ä¿±êÏµÍ³£¬³õÊ¼»¯Ó²¼þ¶¨Ê±Æ÷µÈ£¬Óë²Ù×÷ÏµÍ³ÎÞ¹Ø
- *     2¡¢µ÷ÓÃOSInit³õÊ¼»¯uC/OS-IIÈí¼þÊý¾Ý½á¹¹µÈ£¬±ØÐëÔÚ´ò¿ªÊ±ÖÓ½ÚÅÄÖÐ¶ÏÖ®Ç°µ÷ÓÃ
- *     3¡¢´´½¨Ò»¸öÓÊÏä
- *     4¡¢´´½¨Á½¸öÈÎÎñ£¬TaskLEDºÍTaskSEG£¬TaskLEDµÄÓÅÏÈ¼¶Îª5£¬TaskSEGµÄÓÅÏÈ¼¶Îª13£¬TaskLEDµÄÓÅÏÈ¼¶¸ßÓÚTaskSEG
- *     5¡¢µ÷ÓÃOSStartÆô¶¯uC/OS-II
+ * Mainå‡½æ•°.
+ *     1ã€åˆå§‹åŒ–ç›®æ ‡ç³»ç»Ÿï¼Œåˆå§‹åŒ–ç¡¬ä»¶å®šæ—¶å™¨ç­‰ï¼Œä¸Žæ“ä½œç³»ç»Ÿæ— å…³
+ *     2ã€è°ƒç”¨OSInitåˆå§‹åŒ–uC/OS-IIè½¯ä»¶æ•°æ®ç»“æž„ç­‰ï¼Œå¿…é¡»åœ¨æ‰“å¼€æ—¶é’ŸèŠ‚æ‹ä¸­æ–­ä¹‹å‰è°ƒç”¨
+ *     3ã€åˆ›å»ºä¸€ä¸ªé‚®ç®±
+ *     4ã€åˆ›å»ºä¸¤ä¸ªä»»åŠ¡ï¼ŒTaskLEDå’ŒTaskSEGï¼ŒTaskLEDçš„ä¼˜å…ˆçº§ä¸º5ï¼ŒTaskSEGçš„ä¼˜å…ˆçº§ä¸º13ï¼ŒTaskLEDçš„ä¼˜å…ˆçº§é«˜äºŽTaskSEG
+ *     5ã€è°ƒç”¨OSStartå¯åŠ¨uC/OS-II
  */
 void Main(void)
 {
     /* 
-     * Ä¿±êÏµÍ³³õÊ¼»¯
+     * ç›®æ ‡ç³»ç»Ÿåˆå§‹åŒ–
      */
 	ARMTargetInit();
     
     /* 
-     * uC/OS-IIÈí¼þ³õÊ¼»¯
+     * uC/OS-IIè½¯ä»¶åˆå§‹åŒ–
      */
 	OSInit();
 
 	/* 
-	 * ´´½¨Ò»¸öÓÊÏä
+	 * åˆ›å»ºä¸€ä¸ªé‚®ç®±
 	 */
 	Mbox1 = OSMboxCreate((void *)0); 
 	
 	
 	/* 
-	 * ´´½¨Á½¸öÐÅºÅÁ¿
+	 * åˆ›å»ºä¸¤ä¸ªä¿¡å·é‡
 	 */ 
 	Sem1=OSSemCreate(0);
 	Sem2=OSSemCreate(1);
 	
     /* 
-     * ´´½¨Èý¸öÈÎÎñ
-	 TaskLEDµÄÓÅÏÈ¼¶Îª5£¬TaskSEGµÄÓÅÏÈ¼¶Îª13£¬TaskKey2µÄÓÅÏÈ¼¶Îª14£¨Êý×ÖÔ½Ð¡ÓÅÏÈ¼¶Ô½¸ß£©
+     * åˆ›å»ºä¸‰ä¸ªä»»åŠ¡
+	 TaskLEDçš„ä¼˜å…ˆçº§ä¸º5ï¼ŒTaskSEGçš„ä¼˜å…ˆçº§ä¸º13ï¼ŒTaskKey2çš„ä¼˜å…ˆçº§ä¸º14ï¼ˆæ•°å­—è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜ï¼‰
      */
 	OSTaskCreate(TaskLED, (void *)&IdLED, (OS_STK *)&StackLED[STACKSIZE - 1], 5);
 	OSTaskCreate(TaskSEG, (void *)&IdSEG, (OS_STK *)&StackSEG[STACKSIZE - 1], 13);
 	OSTaskCreate(TaskKEY2, (void *)&IdKEY2, (OS_STK *)&StackKEY2[STACKSIZE - 1], 14);
 
     /* 
-     * Æô¶¯¶àÈÎÎñµ÷¶È
+     * å¯åŠ¨å¤šä»»åŠ¡è°ƒåº¦
      */
     OSStart();
 
     /* 
-     * Õý³£Çé¿öÏÂ£¬ÓÀÔ¶²»»áÖ´ÐÐµ½ÕâÀï 
+     * æ­£å¸¸æƒ…å†µä¸‹ï¼Œæ°¸è¿œä¸ä¼šæ‰§è¡Œåˆ°è¿™é‡Œ 
      */
 	return;
 }   
